@@ -223,11 +223,8 @@ class DreyCLI(App):
         self.current_suggestions: list[str] = []
         self.ai = AIAssistant()
 
-    # Override to disable mouse capture for paste support
     def on_mount(self) -> None:
         self.query_one("#command-input", CommandInput).focus()
-        # Disable mouse capture so right-click paste works
-        self.capture_mouse(False)
 
     CSS = """
     Screen {
