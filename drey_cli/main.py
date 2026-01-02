@@ -214,6 +214,21 @@ class CommandInput(Input):
 class DreyCLI(App):
     """Main Drey CLI Application."""
 
+    # Disable command palette and allow terminal paste
+    ENABLE_COMMAND_PALETTE = False
+
+    def __init__(self):
+        super().__init__()
+        self.cwd = os.getcwd()
+        self.current_suggestions: list[str] = []
+        self.ai = AIAssistant()
+
+    # Override to disable mouse capture for paste support
+    def on_mount(self) -> None:
+        self.query_one("#command-input", CommandInput).focus()
+        # Disable mouse capture so right-click paste works
+        self.capture_mouse(False)
+
     CSS = """
     Screen {
         background: #000000;
@@ -271,12 +286,6 @@ class DreyCLI(App):
     TITLE = "Drey CLI"
     SUB_TITLE = "Modern Terminal with AI"
 
-    def __init__(self):
-        super().__init__()
-        self.cwd = os.getcwd()
-        self.current_suggestions: list[str] = []
-        self.ai = AIAssistant()
-
     def compose(self) -> ComposeResult:
         yield Header()
 
@@ -328,9 +337,6 @@ class DreyCLI(App):
         text.append("Ctrl+C ", style="cyan")
         text.append("Quit", style="dim")
         return text
-
-    def on_mount(self) -> None:
-        self.query_one("#command-input", CommandInput).focus()
 
     def on_input_changed(self, event: Input.Changed) -> None:
         if event.input.id == "command-input":
