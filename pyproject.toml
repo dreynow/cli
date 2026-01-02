@@ -1,0 +1,21 @@
+[project]
+name = "drey-cli"
+version = "0.1.0"
+description = "A modern CLI with smart features, autocomplete, and AI assistance"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "textual>=0.47.0",
+    "rich>=13.7.0",
+    "prompt-toolkit>=3.0.43",
+    "click>=8.1.7",
+    "psutil>=5.9.8",
+    "httpx>=0.27.0",
+]
+
+[project.scripts]
+drey = "drey_cli.main:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
